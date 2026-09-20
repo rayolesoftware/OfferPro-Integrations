@@ -1,6 +1,6 @@
 # OfferPro publisher integration — 2.0.1
 
-Add the OfferPro offerwall to your Android, Flutter, or React Native app using the supplied SDK packages. All three integrations support **Android only**.
+Add the OfferPro offerwall to your Android, Flutter, or React Native app using the packages in the public [OfferPro Integrations repository](https://github.com/rayolesoftware/OfferPro-Integrations). All three integrations support **Android only**.
 
 - [Android](#android)
 - [Flutter](#flutter)
@@ -36,7 +36,13 @@ Use JDK 17 or newer for Android builds. Keep Android System WebView up to date o
 
 ### 1. Add the SDK
 
-Copy the supplied `dist/maven` directory into your Android project as `offerpro-maven`. In the project's `settings.gradle.kts`, add the repository to your existing dependency repositories:
+Clone the public repository:
+
+```sh
+git clone https://github.com/rayolesoftware/OfferPro-Integrations.git
+```
+
+Copy `OfferPro-Integrations/dist/maven` into your Android project as `offerpro-maven`. In the project's `settings.gradle.kts`, add the repository to your existing dependency repositories:
 
 ```kotlin
 dependencyResolutionManagement {
@@ -102,15 +108,20 @@ The SDK manifest supplies the offerwall activity and Internet permission through
 
 ### 1. Install the plugin
 
-Copy the supplied `flutter` package into your project, for example at `packages/offerpro_launcher`, and add it to `pubspec.yaml`:
+Add the plugin directly from GitHub to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
   flutter:
     sdk: flutter
   offerpro_launcher:
-    path: packages/offerpro_launcher
+    git:
+      url: https://github.com/rayolesoftware/OfferPro-Integrations.git
+      ref: main
+      path: flutter
 ```
+
+For a reproducible release, replace `main` with the full commit SHA you have tested and commit your app's `pubspec.lock`. Git must be installed for Flutter to fetch the dependency. See [Dart Git dependencies](https://dart.dev/tools/pub/dependencies#git-packages).
 
 Use a Flutter installation with Dart 3.9.2 or a compatible later Dart 3 release, as required by the package. Set your Android app's `minSdk` to at least 24 and `compileSdk` to at least 35.
 
@@ -158,22 +169,27 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("../packages/offerpro_launcher/android/maven") }
+        maven { url = uri("/absolute/path/to/resolved/offerpro_launcher/android/maven") }
     }
 }
 ```
 
-Adjust the path if you placed the plugin elsewhere; keep any other repositories your app needs.
+Replace the placeholder with the resolved Git package directory in your Pub cache (listed for `offerpro_launcher` in `.dart_tool/package_config.json`), followed by `/android/maven`. This path can differ between machines and commits. With standard project repositories, no manual path is needed. Keep any other repositories your app needs.
 
 ## React Native
 
 ### 1. Install the package
 
-From your React Native app directory, install the supplied package:
+The React Native package lives in the repository's `react-native` subdirectory. Standard npm Git dependencies install the repository root, which currently has no `package.json`, so a direct `npm install github:rayolesoftware/OfferPro-Integrations` will not work.
+
+From your React Native app directory, clone the repository and install its package:
 
 ```sh
-npm install /absolute/path/to/Integrations/react-native
+git clone https://github.com/rayolesoftware/OfferPro-Integrations.git vendor/OfferPro-Integrations
+npm install ./vendor/OfferPro-Integrations/react-native
 ```
+
+Keep this checkout available at the same relative path on development and CI machines. For reproducible releases, check out the full commit SHA you have tested before installing. Direct npm Git installation would require a package at the repository root; a published npm package or package tarball would also avoid the local checkout.
 
 The package is named `@offerpro/react-native`. Autolinking registers its native module; do not also register it manually. Set your Android app's `minSdkVersion` to at least 24 and `compileSdkVersion` to at least 35, then rebuild:
 
@@ -232,26 +248,23 @@ The standard offerwall integration only needs initialization and launch. If your
 | --- | --- | --- | --- |
 | Fetch a Mega Offer | `fetchMegaOffer(callback)` | `fetchMegaOffers()` | `fetchMegaOffer()` |
 | Open a Mega Offer URL | `openMegaWall(activity, url)` | `showMegaOffer(url)` | `showMegaOffer(url)` |
-| Fetch a Link-O-Magic offer | `fetchLinkOMagic(callback)` | `fetchLinkOMagic()` | `fetchLinkOMagic()` |
-| Open a Link-O-Magic URL | `showLinkOMagic(activity, url)` | `showLinkOMagic(url)` | `showLinkOMagic(url)` |
-| Check Usage Access | `hasUsageAccess()` | `hasUsageAccess()` | `hasUsageAccess()` |
-| Open Usage Access settings | `openUsageAccessSettings()` | `openUsageAccessSettings()` | `openUsageAccessSettings()` |
-| Check app installation | `isInstalled(packageName)` | `isInstalled(packageName)` | `isInstalled(packageName)` |
-| Read usage in milliseconds | `getUsageTimeMs(packageName, fromMs, toMs)` | `getUsageTimeMs(packageName, fromMs, toMs)` | `getUsageTimeMs(packageName, fromMs, toMs)` |
 
 Flutter methods return Futures and React Native methods return Promises. Offer fetches may return `null` when no offer is available or a request fails. Open the URL returned by the offer; external offers may launch a browser or another app.
 
 For usage features, ask the user to grant Usage Access to your app in Android Settings, then recheck `hasUsageAccess()` when they return. Opening settings alone does not grant access. Supply `fromMs` and `toMs` as Unix epoch milliseconds. Android retains limited usage history, so older intervals can be incomplete.
 
-For installation checks on apps without a launcher activity, add targeted entries to your app's `AndroidManifest.xml`, directly inside `<manifest>`:
+To make packages with a launcher activity visible for installation checks, use this intent query in your app's `AndroidManifest.xml`, directly inside `<manifest>`:
 
 ```xml
 <queries>
-    <package android:name="com.example.targetapp" />
+    <intent>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+    </intent>
 </queries>
 ```
 
-Replace the example with the package your integration needs to check.
+This uses Android's supported intent-based package visibility and does not require `QUERY_ALL_PACKAGES`. It covers packages with matching launcher activities, not every installed package. The OfferPro SDK already includes this query in its manifest, so it is merged into your app automatically; you only need to declare it yourself if it is missing from your merged manifest. See [Android package visibility documentation](https://developer.android.com/training/package-visibility/declaring).
 
 ## Troubleshooting
 

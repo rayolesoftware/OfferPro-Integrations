@@ -15,7 +15,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   MegaOffer? _mega;
-  LinkOMagicOfferData? _linkOMegic;
   bool _loadingMega = false;
   String? _error;
 
@@ -75,30 +74,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<void> _fetchLinkOMagic() async {
-    setState(() {
-      _loadingMega = true;
-      _error = null;
-    });
-    try {
-      debugPrint('>>> Fetching LinkOMagic offer from SDK...');
-      final mega = await OfferProLauncher.fetchLinkOMagic();
-      setState(() {
-        _linkOMegic = mega;
-      });
-      debugPrint(">>> LinkOMagic offer -> ${_linkOMegic?.toJson()}");
-    } catch (e) {
-      setState(() {
-        _error = e.toString();
-      });
-      debugPrint('>>> LinkOMagic fetching mega offer: $e');
-    } finally {
-      setState(() {
-        _loadingMega = false;
-      });
-    }
-  }
-
   Future<void> _launchMega() async {
     if (_mega == null) {
       ScaffoldMessenger.of(
@@ -107,16 +82,6 @@ class _MyAppState extends State<MyApp> {
       return;
     }
     await OfferProLauncher.showMegaOffer(_mega!.directOfferLink);
-  }
-
-  Future<void> _launchLinkOMagic() async {
-    if (_linkOMegic == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('No MegaOffer loaded yet')));
-      return;
-    }
-    await OfferProLauncher.showLinkOMagic(_linkOMegic!.directOfferLink);
   }
 
   @override
@@ -146,23 +111,8 @@ class _MyAppState extends State<MyApp> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _launchMega,
-                child: const Text('Launch LinkOMagic'),
+                child: const Text('Launch MegaOffer'),
               ),
-              const SizedBox(height: 20),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _loadingMega ? null : _fetchLinkOMagic,
-                child: Text(
-                  _loadingMega ? 'Fetching LinkOMagic...' : 'Fetch LinkOMagic',
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _launchLinkOMagic,
-                child: const Text('Launch LinkOMagic'),
-              ),
-              const SizedBox(height: 20),
-
               const SizedBox(height: 20),
               if (_mega != null) ...[
                 Text('Loaded MegaOffer: ${_mega!.name}'),

@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'src/LinkOMagic/link_o_magic_data.dart';
 import 'src/mega_offer/mega_offer_model.dart';
 
 /// Flutter facade over the native OfferProSdk AAR.
@@ -34,12 +33,7 @@ class OfferProLauncher {
 
   static Future<void> showMegaOffer(String url) => _channel.invokeMethod('openMegaWall', {'url': url});
 
-  static Future<LinkOMagicOfferData?> fetchLinkOMagic() async {
-    final value = await _channel.invokeMethod<dynamic>('fetchLinkOMagic');
-    return value == null ? null : LinkOMagicOfferData.fromJson(Map<String, dynamic>.from(value));
-  }
 
-  static Future<void> showLinkOMagic(String url) => _channel.invokeMethod('showLinkOMagic', {'url': url});
   static Future<bool> hasUsageAccess() => _channel.invokeMethod<bool>('hasUsageAccess').then((v) => v ?? false);
   static Future<void> openUsageAccessSettings() => _channel.invokeMethod('openUsageAccessSettings');
   static Future<int> getUsageTimeMs(String packageName, int fromMs, int toMs) async =>

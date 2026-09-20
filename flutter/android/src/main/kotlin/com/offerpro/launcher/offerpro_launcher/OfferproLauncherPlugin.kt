@@ -52,7 +52,7 @@ class OfferproLauncherPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, A
                 null
             }
             "openWall" -> { sdk.openWall(activity ?: error("No foreground Activity")); null }
-            "openUrl", "openMegaWall", "showLinkOMagic" -> {
+            "openUrl", "openMegaWall" -> {
                 sdk.openUrl(activity ?: error("No foreground Activity"), text("url")); null
             }
             "hasUsageAccess" -> sdk.hasUsageAccess()
@@ -66,7 +66,6 @@ class OfferproLauncherPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, A
         try {
             when (call.method) {
                 "fetchMegaOffer" -> sdk.fetchMegaOffer { if (attached) result.success(it?.toMap()) }
-                "fetchLinkOMagic" -> sdk.fetchLinkOMagic { if (attached) result.success(it?.toMap()) }
                 "getUsageTimeMs", "validateAppUsage", "isInstalled", "validateInstall" -> worker.execute {
                     try {
                         val value = perform()

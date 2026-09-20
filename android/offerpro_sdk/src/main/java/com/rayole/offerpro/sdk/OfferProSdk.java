@@ -100,11 +100,8 @@ public final class OfferProSdk {
     }
 
     public interface MegaOfferCallback { void onResult(MegaOffer offer); }
-    public interface LinkOMagicCallback { void onResult(LinkOMagicData offer); }
-    public void fetchMegaOffer(MegaOfferCallback callback) { fetchFirst("/tasks/list_mega_games/", callback, true); }
-    public void fetchLinkOMagic(LinkOMagicCallback callback) { fetchFirst("/tasks/list_article_offers/", callback, false); }
+    public void fetchMegaOffer(MegaOfferCallback callback) { fetchFirst(callback); }
     public void openMegaWall(Activity activity, String url) { openUrl(activity, url); }
-    public void showLinkOMagic(Activity activity, String url) { openUrl(activity, url); }
 
     private Map<String, Object> userPayload(SdkConfig config) {
         Map<String, Object> payload = new HashMap<>();
@@ -118,17 +115,16 @@ public final class OfferProSdk {
     }
     private static String value(String value) { return value == null ? "" : value; }
 
-    @SuppressWarnings("unchecked")
-    private <T> void fetchFirst(String path, Object callback, boolean mega) {
+    private void fetchFirst(MegaOfferCallback callback) {
         requireInitialized();
         final SdkConfig snapshot = getConfig();
         IO.execute(() -> {
-            T result = null;
+            MegaOffer result = null;
             HttpURLConnection connection = null;
             try {
                 String encrypted = Encryptor.encryptData(userPayload(snapshot), snapshot.encKey);
                 connection = (HttpURLConnection) new URL(
-                        API_URL + path + "?ordering=-cpc&no_pagination=false&page=1").openConnection();
+                        API_URL + "/tasks/list_mega_games/?ordering=-cpc&no_pagination=false&page=1").openConnection();
                 connection.setRequestMethod("POST"); connection.setConnectTimeout(15_000);
                 connection.setReadTimeout(15_000); connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Type", "application/json");
@@ -141,16 +137,13 @@ public final class OfferProSdk {
                     JSONArray array = response instanceof JSONArray ? (JSONArray) response : ((JSONObject) response).getJSONArray("results");
                     if (array.length() > 0) {
                         JSONObject item = array.getJSONObject(0);
-                        result = (T) (mega ? MegaOffer.fromJson(item) : LinkOMagicData.fromJson(item));
+                        result = MegaOffer.fromJson(item);
                     }
                 }
             } catch (Exception ignored) { }
             finally { if (connection != null) connection.disconnect(); }
-            T finalResult = result;
-            new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
-                if (mega) ((MegaOfferCallback) callback).onResult((MegaOffer) finalResult);
-                else ((LinkOMagicCallback) callback).onResult((LinkOMagicData) finalResult);
-            });
+            MegaOffer finalResult = result;
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> callback.onResult(finalResult));
         });
     }
     private static String read(InputStream input) throws Exception {

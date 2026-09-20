@@ -1,8 +1,13 @@
 # OfferPro React Native (Android)
 
+The package is in a subdirectory, so npm cannot install it directly from the repository's Git URL. From your app directory:
+
 ```sh
-npm install /path/to/Integrations/react-native
+git clone https://github.com/rayolesoftware/OfferPro-Integrations.git vendor/OfferPro-Integrations
+npm install ./vendor/OfferPro-Integrations/react-native
 ```
+
+Keep the checkout at the same relative path on development and CI machines. Pin the checkout to a tested commit for releases.
 Autolinking registers `OfferProSdkPackage`; do not also register it manually. Rebuild the Android app after installation. Use minSdk 24 and compileSdk 35+. Expo requires a native development build (not Expo Go).
 
 ```js
