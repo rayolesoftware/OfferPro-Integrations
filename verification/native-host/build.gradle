@@ -1,0 +1,13 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'io.offerpro.verification'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'io.offerpro.verification'
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+    }
+}
+dependencies { implementation 'io.offerpro:offerpro-sdk:2.0.1' }

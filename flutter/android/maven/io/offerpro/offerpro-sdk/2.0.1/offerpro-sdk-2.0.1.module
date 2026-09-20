@@ -1,0 +1,87 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.offerpro",
+    "module": "offerpro-sdk",
+    "version": "2.0.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.9"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "offerpro-sdk-2.0.1.aar",
+          "url": "offerpro-sdk-2.0.1.aar",
+          "size": 92599,
+          "sha512": "5fad7f05cade8c4fbb343c3ca6db3b4cd14ee1721343ac18b98aa90adf8558448911f1789fd14dc6eebbcf19bc5b21517d6e64cf778be4a373232204a5b97f0c",
+          "sha256": "2ebe7e12bc247cca9f68e03c25a86e9aeb09958647ae6e4cbb67ea0cb726554e",
+          "sha1": "d190fe086dd30edb97be5f21ed2b48d20cac2343",
+          "md5": "fad30aff3c253d5f5386e713707258cc"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "androidx.webkit",
+          "module": "webkit",
+          "version": {
+            "requires": "1.12.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "offerpro-sdk-2.0.1.aar",
+          "url": "offerpro-sdk-2.0.1.aar",
+          "size": 92599,
+          "sha512": "5fad7f05cade8c4fbb343c3ca6db3b4cd14ee1721343ac18b98aa90adf8558448911f1789fd14dc6eebbcf19bc5b21517d6e64cf778be4a373232204a5b97f0c",
+          "sha256": "2ebe7e12bc247cca9f68e03c25a86e9aeb09958647ae6e4cbb67ea0cb726554e",
+          "sha1": "d190fe086dd30edb97be5f21ed2b48d20cac2343",
+          "md5": "fad30aff3c253d5f5386e713707258cc"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "offerpro-sdk-2.0.1-sources.jar",
+          "url": "offerpro-sdk-2.0.1-sources.jar",
+          "size": 18033,
+          "sha512": "4d3531e519d44f11e3bd768a86f14c2babf1a73ae39ea368099f3efac9728eac0e5e1f8ff31e9273dd4e3ddb7a33130ac24414ea465d964dfa7933a597d51cb8",
+          "sha256": "b6ddb96412a67ab8a03c3409795f3ae9eee4ac5ca6568a812091db82b08b51b2",
+          "sha1": "190970a52615cbc53d365f94cd8fa5c762b0d33a",
+          "md5": "bd6e9d39c1df5cef634b02619eeb9dc7"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+group = 'io.offerpro.flutter'
+version = '2.0.1'
+buildscript {
+    ext.kotlin_version = '2.1.0'
+    repositories { google(); mavenCentral() }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.6.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+android {
+    namespace 'com.offerpro.launcher.offerpro_launcher'
+    compileSdk 35
+    defaultConfig { minSdk 24 }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions { jvmTarget = '11' }
+    sourceSets.main.java.srcDirs += 'src/main/kotlin'
+}
+repositories { google(); mavenCentral(); maven { url uri('maven') } }
+dependencies { implementation 'io.offerpro:offerpro-sdk:2.0.1' }

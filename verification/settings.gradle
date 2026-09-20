@@ -1,0 +1,5 @@
+pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
+rootProject.name = 'offerpro-verification'
+include ':flutter-plugin', ':react-native-plugin', ':native-host'
+project(':flutter-plugin').projectDir = file('../flutter/android')
+project(':react-native-plugin').projectDir = file('../react-native/android')

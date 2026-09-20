@@ -1,0 +1,8 @@
+{
+  "name": "@offerpro/react-native",
+  "version": "2.0.1",
+  "files": ["index.js", "index.d.ts", "react-native.config.js", "android/build.gradle", "android/maven", "android/offerpro-react-native/src", "README.md"],
+  "types": "index.d.ts",
+  "main": "index.js",
+  "peerDependencies": { "react": ">=17", "react-native": ">=0.71" }
+}

@@ -1,0 +1,24 @@
+buildscript {
+    repositories { google(); mavenCentral() }
+    dependencies { classpath 'com.android.tools.build:gradle:8.6.1' }
+}
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'com.offerpro.reactnative'
+    compileSdk rootProject.ext.has('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 35
+    defaultConfig { minSdk 24 }
+    sourceSets.main {
+        java.srcDirs = ['offerpro-react-native/src/main/java']
+        manifest.srcFile 'offerpro-react-native/src/main/AndroidManifest.xml'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+repositories { google(); mavenCentral(); maven { url uri('maven') } }
+dependencies {
+    implementation 'io.offerpro:offerpro-sdk:2.0.1'
+    implementation 'com.facebook.react:react-android'
+}

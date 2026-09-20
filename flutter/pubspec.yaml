@@ -1,0 +1,32 @@
+name: offerpro_launcher
+description: "Android OfferPro SDK bridge with offer wall, install checks and usage validation."
+version: 2.0.1
+homepage:
+
+environment:
+  sdk: ^3.9.2
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+
+flutter:
+
+  plugin:
+#    git add .
+#    git commit -m "app usages update"
+#    git push
+#    git tag v1.0.14
+#    git push origin v1.0.14
+    #    ./gradlew :offerpro-sdk:publishToMavenLocal
+    platforms:
+      android:
+        package: com.offerpro.launcher.offerpro_launcher
+        pluginClass: OfferproLauncherPlugin
