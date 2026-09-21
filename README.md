@@ -251,20 +251,7 @@ The standard offerwall integration only needs initialization and launch. If your
 
 Flutter methods return Futures and React Native methods return Promises. Offer fetches may return `null` when no offer is available or a request fails. Open the URL returned by the offer; external offers may launch a browser or another app.
 
-For usage features, ask the user to grant Usage Access to your app in Android Settings, then recheck `hasUsageAccess()` when they return. Opening settings alone does not grant access. Supply `fromMs` and `toMs` as Unix epoch milliseconds. Android retains limited usage history, so older intervals can be incomplete.
-
-To make packages with a launcher activity visible for installation checks, use this intent query in your app's `AndroidManifest.xml`, directly inside `<manifest>`:
-
-```xml
-<queries>
-    <intent>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent>
-</queries>
-```
-
-This uses Android's supported intent-based package visibility and does not require `QUERY_ALL_PACKAGES`. It covers packages with matching launcher activities, not every installed package. The OfferPro SDK already includes this query in its manifest, so it is merged into your app automatically; you only need to declare it yourself if it is missing from your merged manifest. See [Android package visibility documentation](https://developer.android.com/training/package-visibility/declaring).
+Installation checks, usage validation, and Usage Access prompts are handled internally by the offerwall SDK. They are not exposed as publisher APIs.
 
 ## Troubleshooting
 
@@ -274,4 +261,3 @@ This uses Android's supported intent-based package visibility and does not requi
 - **Offerwall will not open:** await initialization and launch from a foreground activity. Initialize again after an app process restart.
 - **WebView update message:** update Android System WebView on the device before retrying.
 - **Device blocked:** VPN, root, emulator, ADB, or developer-options checks can block launch. Test on a supported physical device with these disabled.
-- **Usage query fails:** confirm that the user granted Usage Access to the publisher app and recheck permission after returning from Settings.

@@ -24,7 +24,6 @@ class OfferProLauncher {
       });
 
   static Future<void> showOfferPro() => _channel.invokeMethod('openWall');
-  static Future<void> openUrl(String url) => _channel.invokeMethod('openUrl', {'url': url});
 
   static Future<MegaOffer?> fetchMegaOffers() async {
     final value = await _channel.invokeMethod<dynamic>('fetchMegaOffer');
@@ -32,17 +31,4 @@ class OfferProLauncher {
   }
 
   static Future<void> showMegaOffer(String url) => _channel.invokeMethod('openMegaWall', {'url': url});
-
-
-  static Future<bool> hasUsageAccess() => _channel.invokeMethod<bool>('hasUsageAccess').then((v) => v ?? false);
-  static Future<void> openUsageAccessSettings() => _channel.invokeMethod('openUsageAccessSettings');
-  static Future<int> getUsageTimeMs(String packageName, int fromMs, int toMs) async =>
-      (await _channel.invokeMethod<num>('getUsageTimeMs', {
-        'packageName': packageName, 'fromMs': fromMs, 'toMs': toMs,
-      }))?.toInt() ?? 0;
-  static Future<bool> isInstalled(String packageName) => _channel.invokeMethod<bool>('isInstalled', {'packageName': packageName}).then((v) => v ?? false);
-  static Future<String> validateInstall(String packageName) => _channel.invokeMethod<String>('validateInstall', {'packageName': packageName}).then((v) => v ?? '');
-  static Future<String> validateAppUsage(String packageName, int fromMs, int toMs) => _channel.invokeMethod<String>('validateAppUsage', {
-    'packageName': packageName, 'fromMs': fromMs, 'toMs': toMs,
-  }).then((v) => v ?? '');
 }

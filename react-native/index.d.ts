@@ -14,14 +14,7 @@ export interface MegaOffer {
 export const OfferPro: {
   initialize(config: OfferProConfig): Promise<void>;
   showOfferPro(): Promise<void>;
-  openUrl(url: string): Promise<void>;
   fetchMegaOffer(): Promise<MegaOffer | null>;
   showMegaOffer(url: string): Promise<void>;
-  hasUsageAccess(): Promise<boolean>;
-  openUsageAccessSettings(): Promise<void>;
-  getUsageTimeMs(packageName: string, fromMs: number, toMs: number): Promise<number>;
-  isInstalled(packageName: string): Promise<boolean>;
-  validateInstall(packageName: string): Promise<string>;
-  validateAppUsage(packageName: string, fromMs: number, toMs: number): Promise<string>;
 };
 export default OfferPro;

@@ -23,7 +23,7 @@ await OfferProLauncher.showOfferPro();
 ```
 The host must provide its advertising ID; it is required by the backend. `deviceId` is optional. `appId` is an integer. Invalid configuration and native errors produce PlatformException.
 
-Other methods: `fetchMegaOffers`, `showMegaOffer`, `openUrl`, `isInstalled`, `validateInstall`, `hasUsageAccess`, `openUsageAccessSettings`, `getUsageTimeMs`, `validateAppUsage`. Usage timestamps are epoch milliseconds. Verification methods return backend-compatible encrypted strings.
+Other publisher methods: `fetchMegaOffers` and `showMegaOffer`. Installation and usage validation are handled internally by the SDK.
 
 Standard Flutter hosts use project repositories, which the plugin configures. If your host centralizes repositories using PREFER_SETTINGS or FAIL_ON_PROJECT_REPOS, register the plugin's `android/maven` directory in the host settings and use PREFER_SETTINGS:
 ```groovy

@@ -17,10 +17,8 @@ await OfferPro.initialize({
   deviceId: '',
 });
 await OfferPro.showOfferPro();
-const installed = await OfferPro.isInstalled('com.example.app');
-const usedMs = await OfferPro.getUsageTimeMs('com.example.app', fromMs, toMs);
 ```
-Advertising ID is required and provided by the host. Usage timestamps are epoch milliseconds. Grant Usage Access through `openUsageAccessSettings()` before reading usage. `validateInstall` and `validateAppUsage` return encrypted backend tokens.
+Advertising ID is required and provided by the host. Other publisher methods are `fetchMegaOffer` and `showMegaOffer`. Installation and usage validation are handled internally by the SDK.
 
 The native module uses the legacy React Native bridge, compile-checked against 0.76.9. Compatibility with other versions/new-architecture interop requires testing in the consuming app. iOS calls reject with a clear unsupported-platform error.
 

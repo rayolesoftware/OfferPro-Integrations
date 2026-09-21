@@ -54,7 +54,7 @@ public final class OfferProSdk {
             openUrl(activity, DEFAULT_WALL_URL + "?enc=" + Uri.encode(encrypted) + "&app_id=" + snapshot.appId);
         } catch (Exception e) { throw new IllegalStateException("Unable to create OfferPro wall URL", e); }
     }
-    public void openUrl(Activity activity, String url) {
+    private void openUrl(Activity activity, String url) {
         requireInitialized();
         if (url == null || !"https".equals(Uri.parse(url).getScheme()) || Uri.parse(url).getHost() == null)
             throw new IllegalArgumentException("A valid HTTPS URL is required");
@@ -82,18 +82,18 @@ public final class OfferProSdk {
         });
     }
 
-    public boolean hasUsageAccess() { requireInitialized(); return AppUsageUtils.hasUsageAccess(appContext); }
-    public void openUsageAccessSettings() { requireInitialized(); AppUsageUtils.openUsageAccessSettings(appContext); }
-    public long getUsageTimeMs(String packageName, long fromMs, long toMs) {
+    private boolean hasUsageAccess() { requireInitialized(); return AppUsageUtils.hasUsageAccess(appContext); }
+    private void openUsageAccessSettings() { requireInitialized(); AppUsageUtils.openUsageAccessSettings(appContext); }
+    private long getUsageTimeMs(String packageName, long fromMs, long toMs) {
         requireInitialized(); return AppUsageUtils.getUsageMs(appContext, packageName, fromMs, toMs);
     }
-    public boolean isInstalled(String packageName) {
+    private boolean isInstalled(String packageName) {
         requireInitialized(); return new ItkrBridge(null, appContext, config.encKey).isInstalled(appContext, packageName);
     }
-    public String validateInstall(String packageName) throws Exception {
+    private String validateInstall(String packageName) throws Exception {
         requireInitialized(); return new ItkrBridge(null, appContext, config.encKey).validateInstall(packageName);
     }
-    public String validateAppUsage(String packageName, long fromMs, long toMs) throws Exception {
+    private String validateAppUsage(String packageName, long fromMs, long toMs) throws Exception {
         requireInitialized();
         return new ItkrBridge(null, appContext, config.encKey)
                 .validateAppUsage(packageName, String.valueOf(fromMs), String.valueOf(toMs));

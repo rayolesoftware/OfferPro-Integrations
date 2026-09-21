@@ -34,14 +34,7 @@ public final class OfferProSdkModule extends ReactContextBaseJavaModule {
         } catch (Throwable t) { promise.reject("INIT_FAIL", t); }
     }
     @ReactMethod public void openWall(Promise promise) { runActivity(promise, a -> OfferProSdk.getInstance().openWall(a)); }
-    @ReactMethod public void openUrl(String url, Promise promise) { runActivity(promise, a -> OfferProSdk.getInstance().openUrl(a, url)); }
     @ReactMethod public void openMegaWall(String url, Promise promise) { runActivity(promise, a -> OfferProSdk.getInstance().openMegaWall(a, url)); }
-    @ReactMethod public void hasUsageAccess(Promise p) { try { p.resolve(OfferProSdk.getInstance().hasUsageAccess()); } catch (Throwable t) { p.reject("USAGE_FAIL", t); } }
-    @ReactMethod public void openUsageAccessSettings(Promise p) { try { OfferProSdk.getInstance().openUsageAccessSettings(); p.resolve(null); } catch (Throwable t) { p.reject("USAGE_SETTINGS_FAIL", t); } }
-    @ReactMethod public void getUsageTimeMs(String pkg, double from, double to, Promise p) { try { p.resolve((double) OfferProSdk.getInstance().getUsageTimeMs(pkg, (long) from, (long) to)); } catch (Throwable t) { p.reject("USAGE_FAIL", t); } }
-    @ReactMethod public void isInstalled(String pkg, Promise p) { try { p.resolve(OfferProSdk.getInstance().isInstalled(pkg)); } catch (Throwable t) { p.reject("INSTALL_CHECK_FAIL", t); } }
-    @ReactMethod public void validateInstall(String pkg, Promise p) { try { p.resolve(OfferProSdk.getInstance().validateInstall(pkg)); } catch (Throwable t) { p.reject("INSTALL_VALIDATE_FAIL", t); } }
-    @ReactMethod public void validateAppUsage(String pkg, double from, double to, Promise p) { try { p.resolve(OfferProSdk.getInstance().validateAppUsage(pkg, (long) from, (long) to)); } catch (Throwable t) { p.reject("USAGE_VALIDATE_FAIL", t); } }
 
     @ReactMethod public void fetchMegaOffer(Promise p) { try { OfferProSdk.getInstance().fetchMegaOffer(o -> p.resolve(o == null ? null : offer(o))); } catch (Throwable t) { p.reject("MEGA_FAIL", t); } }
     private WritableMap offer(MegaOffer o) {
